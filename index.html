@@ -3,70 +3,340 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto Radio</title>
+    <title>Crypto Radio - Your Blockchain Beats Station</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
-            padding: 20px;
-            background-color: #1a1a1a;
-            color: white;
+            padding: 0;
+            box-sizing: border-box;
         }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 20px;
         }
+
         .header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
+            position: relative;
         }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            width: 150px;
+            height: 150px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+        }
+
+        .logo:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 255, 255, 0.5);
+        }
+
+        .main-title {
+            font-size: 4rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            text-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: brightness(1); }
+            to { filter: brightness(1.2); }
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #00ffff;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
         .player-section {
-            background: #2a2a2a;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px 0;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .player-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .live-indicator {
+            width: 15px;
+            height: 15px;
+            background: #00e5ff;
+            border-radius: 50%;
+            animation: pulse 3.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .player-title {
+            font-size: 1.8rem;
+            color: #00ffff;
+            margin: 0;
+        }
+
+        .player-iframe {
+            width: 100%;
+            min-height: 150px;
+            border: 0;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .now-playing {
+            background: rgba(0, 255, 255, 0.1);
+            border-left: 4px solid #00ffff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .now-playing h3 {
+            color: #00ffff;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .song-info {
+            font-size: 1.1rem;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .about-section {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .about-section h2 {
+            color: #ff00ff;
+            margin-bottom: 15px;
+            font-size: 2rem;
+        }
+
+        .about-section p {
+            line-height: 1.6;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
             padding: 20px;
             border-radius: 10px;
-            margin: 20px 0;
+            text-align: center;
+            border: 1px solid rgba(0, 255, 255, 0.2);
         }
-        .now-playing {
-            margin: 20px 0;
-            padding: 15px;
-            background: #333;
-            border-radius: 5px;
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00ffff;
+            display: block;
+        }
+
+        .stat-label {
+            color: #ffffff;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .logo {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .logo-container {
+                gap: 15px;
+            }
+
+            .player-header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.7;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header class="header">
-            <h1>🎵 Crypto Radio</h1>
-            <p>Your favorite crypto-themed music station</p>
+            <div class="logo-container">
+                <img src="tezosradio.png" alt="Tezos Radio" class="logo">
+                <img src="cryptoradio.png" alt="Crypto Radio" class="logo">
+            </div>
+            <h1 class="main-title">CRYPTO RADIO</h1>
+            <p class="subtitle">🔗 Your Blockchain Beats Station 🎵</p>
         </header>
 
         <div class="player-section">
-            <h2>🔴 Live Radio</h2>
-            <p>Listen to our live stream:</p>
+            <div class="player-header">
+                <div class="live-indicator"></div>
+                <h2 class="player-title">LIVE STREAM</h2>
+            </div>
+            <p style="margin-bottom: 15px; opacity: 0.8;">Tune in to the future of crypto-themed music</p>
             
-            <!-- This will be replaced with your actual AzuraCast embed -->
-            <div style="background: #444; padding: 20px; text-align: center; border-radius: 5px;">
-                <p>🎧 Radio Player Will Go Here</p>
-                <p><small>After we set up the subdomain, we'll embed the actual player</small></p>
+            <iframe src="https://music.cryptoradio.org/public/cryptoradio/embed?theme=dark" 
+                    frameborder="0" 
+                    allowtransparency="true" 
+                    class="player-iframe"></iframe>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-number" id="listeners">---</span>
+                <div class="stat-label">Live Listeners</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">24/7</span>
+                <div class="stat-label">Broadcasting</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">🚀</span>
+                <div class="stat-label">Crypto Vibes</div>
             </div>
         </div>
 
-        <div class="now-playing">
-            <h3>🎵 Now Playing</h3>
-            <div id="current-song">Loading...</div>
+        <div class="about-section">
+            <h2>📻 About Crypto Radio</h2>
+            <p>
+                Welcome to <strong>Crypto Radio</strong> - your premier destination for cryptocurrency news, 
+                blockchain beats, and digital asset discussions! We broadcast 24/7 with a carefully curated 
+                mix of electronic music, crypto market updates, DeFi discussions, and the latest from the 
+                world of decentralized finance. Whether you're a Bitcoin maximalist, Ethereum enthusiast, 
+                or exploring the latest altcoins, our station keeps you connected to the pulse of the 
+                crypto universe.
+            </p>
         </div>
 
-        <div>
-            <h2>📻 About Crypto Radio</h2>
-            <p>Welcome to Crypto Radio - your go-to destination for cryptocurrency news, blockchain beats, and digital asset discussions!</p>
+        <div class="footer">
+            <p>© 2025 Crypto Radio</p>
         </div>
     </div>
 
     <script>
-        // Placeholder for now playing info
-        // We'll replace this with actual AzuraCast API calls later
-        document.getElementById('current-song').innerHTML = '🎵 Coming Soon...';
+        // Update now playing info from AzuraCast API
+        async function updateNowPlaying() {
+            try {
+                const response = await fetch('https://music.cryptoradio.org/api/nowplaying/cryptoradio');
+                const data = await response.json();
+                
+                if (data.now_playing && data.now_playing.song) {
+                    const song = data.now_playing.song;
+                    const artist = song.artist || 'Unknown Artist';
+                    const title = song.title || 'Unknown Track';
+                    
+                    document.getElementById('current-song').innerHTML = 
+                        `🎵 <strong>${title}</strong> - ${artist}`;
+                } else {
+                    document.getElementById('current-song').innerHTML = 
+                        '🎵 Crypto Radio - Your Blockchain Beats';
+                }
+
+                // Update listener count if available
+                if (data.listeners && data.listeners.current) {
+                    document.getElementById('listeners').textContent = data.listeners.current;
+                }
+                
+            } catch (error) {
+                console.log('API call failed, using fallback');
+                document.getElementById('current-song').innerHTML = 
+                    '🎵 Crypto Radio - Broadcasting Live';
+            }
+        }
+
+        // Update immediately and then every 15 seconds
+        updateNowPlaying();
+        setInterval(updateNowPlaying, 15000);
+
+        // Add some visual flair
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate elements on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all sections
+            document.querySelectorAll('.player-section, .now-playing, .about-section, .stat-card').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'all 0.6s ease';
+                observer.observe(el);
+            });
+        });
     </script>
 </body>
 </html>
